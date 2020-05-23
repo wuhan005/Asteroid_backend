@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 	"log"
@@ -36,6 +37,13 @@ func (c *Client) writePump() {
 		ticker.Stop()
 		c.conn.Close()
 	}()
+
+	// Init message
+	initData, _ := json.Marshal(&unityData{
+		Type: INIT,
+		Data: teams,
+	})
+	c.send <- initData
 
 	for {
 		select {
@@ -85,4 +93,12 @@ func ServeWebSocket(hub *Hub, c *gin.Context) {
 	// Allow collection of memory referenced by the caller by doing all work in
 	// new goroutines.
 	go client.writePump()
+}
+
+func sendMessage(messageType string, data interface{}) {
+	jsonData, _ := json.Marshal(&unityData{
+		Type: messageType,
+		Data: data,
+	})
+	hub.broadcast <- jsonData
 }
