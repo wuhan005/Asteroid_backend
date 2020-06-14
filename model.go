@@ -5,6 +5,13 @@ type unityData struct {
 	Data interface{}
 }
 
+type team struct {
+	Id    int
+	Name  string
+	Rank  int
+	Score int
+}
+
 type attack struct {
 	From int
 	To   int

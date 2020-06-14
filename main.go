@@ -11,7 +11,7 @@ import (
 
 var token, port string
 var hub *Hub
-var teams []string
+var teams []team
 
 func init() {
 	gin.SetMode(gin.ReleaseMode)
@@ -25,7 +25,15 @@ func init() {
 	if err != nil {
 		log.Panicln(err)
 	}
-	teams = strings.Split(string(teamData), "\n")
+	teamsName := strings.Split(string(teamData), "\n")
+	for index, t := range teamsName {
+		teams = append(teams, team{
+			Id:    index,
+			Name:  t,
+			Rank:  index,
+			Score: 1000,
+		})
+	}
 }
 
 func main() {
@@ -33,7 +41,7 @@ func main() {
 
 	fmt.Println("===== Teams =====")
 	for k, v := range teams {
-		fmt.Printf("%2d - %s\n", k, v)
+		fmt.Printf("%2d - %s\n", k, v.Name)
 	}
 	fmt.Printf("\ntoken: %s\n\n", token)
 

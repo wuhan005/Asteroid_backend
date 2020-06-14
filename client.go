@@ -41,7 +41,11 @@ func (c *Client) writePump() {
 	// Init message
 	initData, _ := json.Marshal(&unityData{
 		Type: INIT,
-		Data: teams,
+		Data: map[string]interface{}{
+			"Team":  teams,
+			"Time":  300,
+			"Round": 1,
+		},
 	})
 	c.send <- initData
 
