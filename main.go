@@ -9,7 +9,7 @@ import (
 	log "unknwon.dev/clog/v2"
 )
 
-var token, port string
+var title, token, port string
 var hub *Hub
 var teams []team
 
@@ -20,6 +20,7 @@ func init() {
 
 func main() {
 	// Parse CLI.
+	flag.StringVar(&title, "title", "HCTF", "Contest name")
 	flag.StringVar(&token, "token", randomString(32), "Authorization Token")
 	flag.StringVar(&port, "port", "12345", "HTTP Listening Port")
 	flag.Parse()

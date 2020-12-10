@@ -43,6 +43,7 @@ func (c *Client) writePump() {
 	initData, _ := json.Marshal(&unityData{
 		Type: INIT,
 		Data: map[string]interface{}{
+			"Title": title,
 			"Team":  teams,
 			"Time":  300,
 			"Round": 1,
