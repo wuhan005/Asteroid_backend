@@ -2,11 +2,11 @@ package main
 
 import (
 	"flag"
-	"fmt"
-	"github.com/gin-gonic/gin"
 	"io/ioutil"
-	"log"
 	"strings"
+
+	"github.com/gin-gonic/gin"
+	log "unknwon.dev/clog/v2"
 )
 
 var token, port string
@@ -14,17 +14,22 @@ var hub *Hub
 var teams []team
 
 func init() {
+	_ = log.NewConsole()
 	gin.SetMode(gin.ReleaseMode)
+}
 
-	hub = NewHub()
+func main() {
+	// Parse CLI.
 	flag.StringVar(&token, "token", randomString(32), "Authorization Token")
 	flag.StringVar(&port, "port", "12345", "HTTP Listening Port")
+	flag.Parse()
 
-	// Load team file
+	// Load team file.
 	teamData, err := ioutil.ReadFile("team.txt")
 	if err != nil {
-		log.Panicln(err)
+		log.Fatal("Failed to read file team.txt: %v", err)
 	}
+
 	teamsName := strings.Split(string(teamData), "\n")
 	for index, t := range teamsName {
 		teams = append(teams, team{
@@ -34,18 +39,18 @@ func init() {
 			Score: 1000,
 		})
 	}
-}
 
-func main() {
-	flag.Parse()
+	hub = NewHub()
 
-	fmt.Println("===== Teams =====")
+	log.Info("===== Teams =====")
 	for k, v := range teams {
-		fmt.Printf("%2d - %s\n", k, v.Name)
+		log.Trace("%2d - %s", k, v.Name)
 	}
-	fmt.Printf("\ntoken: %s\n\n", token)
+
+	log.Info("Authorization token: %s\n", token)
 
 	r := gin.Default()
+
 	r.GET("/websocket", func(c *gin.Context) {
 		ServeWebSocket(hub, c)
 	})
@@ -68,6 +73,7 @@ func main() {
 	auth.POST("/clearAll", clearAllHandler)
 
 	go hub.Run()
-	log.Printf("Listening and serving HTTP on :%s\n", port)
-	log.Panicln(r.Run(":" + port))
+
+	log.Info("Listening and serving HTTP on :%s\n", port)
+	log.Fatal("Failed to start web server: %v", r.Run(":"+port))
 }
