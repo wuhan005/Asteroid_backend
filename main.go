@@ -24,33 +24,10 @@ func main() {
 	flag.StringVar(&port, "port", "12345", "HTTP Listening Port")
 	flag.Parse()
 
-	// Load team file.
-	teamData, err := ioutil.ReadFile("team.txt")
-	if err != nil {
-		log.Fatal("Failed to read file team.txt: %v", err)
-	}
+	loadTeams()
 
-	teamsName := strings.Split(string(teamData), "\n")
-	for index, t := range teamsName {
-		teams = append(teams, team{
-			Id:    index,
-			Name:  t,
-			Rank:  index,
-			Score: 1000,
-		})
-	}
-
-	hub = NewHub()
-
-	log.Info("===== Teams =====")
-	for k, v := range teams {
-		log.Trace("%2d - %s", k, v.Name)
-	}
-
-	log.Info("Authorization token: %s\n", token)
-
+	// Web server router.
 	r := gin.Default()
-
 	r.GET("/websocket", func(c *gin.Context) {
 		ServeWebSocket(hub, c)
 	})
@@ -72,8 +49,34 @@ func main() {
 	auth.POST("/clear", clearHandler)
 	auth.POST("/clearAll", clearAllHandler)
 
+	// Run websocket hub.
+	hub = NewHub()
 	go hub.Run()
 
+	log.Info("Authorization token: %s\n", token)
 	log.Info("Listening and serving HTTP on :%s\n", port)
 	log.Fatal("Failed to start web server: %v", r.Run(":"+port))
+}
+
+func loadTeams() {
+	// Load team file.
+	teamData, err := ioutil.ReadFile("team.txt")
+	if err != nil {
+		log.Fatal("Failed to read file team.txt: %v", err)
+	}
+
+	teamsName := strings.Split(string(teamData), "\n")
+	for index, t := range teamsName {
+		teams = append(teams, team{
+			Id:    index,
+			Name:  t,
+			Rank:  index,
+			Score: 1000,
+		})
+	}
+
+	log.Info("===== Teams =====")
+	for k, v := range teams {
+		log.Trace("%2d - %s", k, v.Name)
+	}
 }

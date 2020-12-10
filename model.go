@@ -5,10 +5,18 @@ type unityData struct {
 	Data interface{}
 }
 
+type greet struct {
+	Title string
+	Time  int
+	Round int
+	Team  []team
+}
+
 type team struct {
 	Id    int
 	Name  string
 	Rank  int
+	Image string
 	Score int
 }
 
@@ -18,16 +26,12 @@ type attack struct {
 }
 
 type rank struct {
-	Team []struct {
-		Id    int
-		Rank  int
-		Score int
-	} `binding:"required"`
+	Team []team
 }
 
 type status struct {
 	Id     int
-	Status string `binding:"required"`
+	Status string
 }
 
 type round struct {
