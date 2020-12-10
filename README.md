@@ -1,5 +1,7 @@
 # Asteroid_backend
-Asteroid 客户端
+Asteroid 后端
+
+您可以使用此后端对 Asteroid 进行二次开发，使其能够在 Cardinal 以外的平台上使用。
 
 ## 开始使用
 ```bash
@@ -14,6 +16,7 @@ go build -o Asteroid
 ```bash
 ./Asteroid
 ```
+* `--title` 比赛名称（默认：HCTF）
 * `--port` HTTP 监听端口（默认：12345）
 * `--token` HTTP Authorization 请求头（默认随机字符串）
 
