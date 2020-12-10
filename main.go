@@ -71,13 +71,13 @@ func loadTeams() {
 		teams = append(teams, team{
 			Id:    index,
 			Name:  t,
-			Rank:  index,
+			Rank:  index + 1,
 			Score: 1000,
 		})
 	}
 
 	log.Info("===== Teams =====")
 	for k, v := range teams {
-		log.Trace("%2d - %s", k, v.Name)
+		log.Trace("%2d - %s", k+1, v.Name)
 	}
 }

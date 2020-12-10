@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"log"
 	"net/http"
 	"time"
 
@@ -68,7 +67,6 @@ func (c *Client) writePump() {
 
 			w.Write(message)
 			if err := w.Close(); err != nil {
-				log.Printf("error: %v", err)
 				return
 			}
 		case <-ticker.C:
@@ -90,7 +88,6 @@ func ServeWebSocket(hub *Hub, c *gin.Context) {
 	}
 	conn, err := upgrader.Upgrade(c.Writer, c.Request, nil)
 	if err != nil {
-		log.Println(err)
 		return
 	}
 	client := &Client{hub: hub, conn: conn, send: make(chan []byte, 256)}
