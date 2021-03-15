@@ -6,9 +6,24 @@ Asteroid 后端
 ## 开始使用
 ```bash
 git clone https://github.com/wuhan005/Asteroid_backend
+cd Asteroid_backend
 go mod tidy
 go build -o Asteroid
 ```
+
+在进行编译时如果提示timeout，原因是包管理器默认使用的是proxy.golang.org，在国内无法访问，因此需要更换国内代理
+
+``` bash
+go env -w GOPROXY=https://goproxy.cn
+```
+
+如果是需要编译成exe文件，则可以使用以下命令进行编译
+
+``` bash
+go build -o Asteroid.exe
+```
+
+
 
 创建`team.txt`文件，队伍名一行一个。
 
