@@ -6,9 +6,19 @@ Asteroid 后端
 ## 开始使用
 ```bash
 git clone https://github.com/wuhan005/Asteroid_backend
+cd Asteroid_backend
 go mod tidy
-go build -o Asteroid
+go build .
 ```
+
+在进行编译时如果提示 Timeout，原因是 Go Modules 默认使用 `proxy.golang.org`，在国内无法访问，需要设置 GOPROXY 代理。
+
+``` bash
+go env -w GOPROXY=https://goproxy.cn
+```
+
+
+
 
 创建`team.txt`文件，队伍名一行一个。
 
