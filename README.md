@@ -8,7 +8,7 @@ Asteroid 后端
 git clone https://github.com/wuhan005/Asteroid_backend
 cd Asteroid_backend
 go mod tidy
-go build -o Asteroid
+go build .
 ```
 
 在进行编译时如果提示timeout，原因是包管理器默认使用的是proxy.golang.org，在国内无法访问，因此需要更换国内代理
