@@ -11,7 +11,7 @@ go mod tidy
 go build .
 ```
 
-在进行编译时如果提示timeout，原因是包管理器默认使用的是proxy.golang.org，在国内无法访问，因此需要更换国内代理
+在进行编译时如果提示 Timeout，原因是 Go Modules 默认使用 `proxy.golang.org`，在国内无法访问，需要设置 GOPROXY 代理。
 
 ``` bash
 go env -w GOPROXY=https://goproxy.cn
