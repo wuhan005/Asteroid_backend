@@ -17,11 +17,6 @@ go build .
 go env -w GOPROXY=https://goproxy.cn
 ```
 
-如果是需要编译成exe文件，则可以使用以下命令进行编译
-
-``` bash
-go build -o Asteroid.exe
-```
 
 
 
